@@ -1,0 +1,483 @@
+/* src/index.css */
+/* Disable stylelint rules that do not understand Tailwind's directives so IDE/build linters won't report false positives */
+/* stylelint-disable at-rule-no-unknown */
+/* stylelint-disable declaration-block-no-duplicate-properties */
+/* eslint-disable */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --spot-x: 50%;
+  --spot-y: 20%;
+  --accent-indigo: 74 70 229; /* rgb parts for dynamic glow */
+  --gold: 251 191 36;
+  --emerald: 16 185 129;
+
+  /* Centralized palette tokens (hex + rgb) */
+  --ww-indigo: #4f46e5;
+  --ww-indigo-rgb: 79 70 229;
+  --ww-gold: #fbbf24;
+  --ww-gold-rgb: 251 191 36;
+  --ww-emerald: #10b981;
+  --ww-emerald-rgb: 16 185 129;
+  --ww-cyan: #06b6d4;
+  --ww-cyan-rgb: 6 182 212;
+  --ww-navy: #07103a;
+  --ww-panel: #191928;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+/* Ambient moving spotlight using CSS variables updated from JS */
+.theme-wwtbam {
+  background-image: radial-gradient(1200px 600px at 50% 15%, rgba(13,22,57,0.55), rgba(3,5,11,0.92)), url('/bg-wwtbam.svg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #e6f0ff;
+  position: relative;
+  /* soft ambient spotlight that follows cursor */
+}
+.theme-wwtbam::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(600px 400px at var(--spot-x) var(--spot-y), rgba(var(--accent-indigo),0.14), transparent 18%);
+  mix-blend-mode: screen;
+  transition: background-position 120ms linear;
+}
+
+body {
+  @apply bg-wwtbam-navy text-indigo-100 antialiased;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.card {
+  @apply rounded-xl p-4;
+  background: rgba(22,22,38,0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+:focus {
+  outline: none;
+}
+
+button:focus, input:focus, textarea:focus {
+  box-shadow: 0 0 0 4px rgba(79,70,229,0.14);
+  border-radius: 0.375rem;
+}
+
+@media (min-width: 1024px) {
+  main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Small utility to soften the logo ring */
+.logo-soften {
+  filter: drop-shadow(0 12px 24px rgba(10,11,31,0.6));
+}
+
+/* Glass panels and epic button styles for the WWTBAM facelift */
+.glass-panel {
+  background: rgba(25,25,40,0.6);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  color: #eaf3ff;
+}
+
+/* Primary button: glass + indigo glow + inner pulse */
+.btn-primary {
+  @apply inline-flex items-center justify-center px-5 py-3 rounded-md font-semibold transition-transform duration-150 ease-out focus:outline-none;
+  background: linear-gradient(180deg, rgba(43,40,102,0.92), rgba(36,28,77,0.84));
+  color: white;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6), 0 4px 18px rgba(59,57,180,0.06);
+  position: relative;
+  overflow: hidden;
+}
+/* subtle warm gold sheen across the button */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  left: -20%;
+  top: -40%;
+  width: 140%;
+  height: 220%;
+  background: linear-gradient(120deg, rgba(var(--gold),0.06), rgba(255,255,255,0.02) 35%, rgba(var(--accent-indigo),0.06) 70%);
+  transform: rotate(-12deg);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 300ms ease;
+  opacity: 0.7;
+}
+.btn-primary:hover::before {
+  transform: translateY(-6px) rotate(-10deg) scale(1.02);
+  opacity: 0.95;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(300px 120px at 10% 20%, rgba(255,255,255,0.06), transparent 20%);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.btn-primary.neon-glow:hover {
+  box-shadow: 0 18px 48px rgba(79,70,229,0.22), 0 0 48px rgba(99,102,241,0.08);
+}
+.btn-primary.neon-glow:hover::after {
+  opacity: 1;
+}
+
+/* Gold glow when neon + accent */
+.btn-primary.neon-glow {
+  box-shadow: 0 18px 48px rgba(var(--accent-indigo),0.18), 0 0 36px rgba(var(--gold),0.08);
+}
+
+/* subtle inner pulse when neon prop is used */
+.neon-glow {
+  animation: pulse-glow 1.8s ease-in-out infinite;
+}
+
+/* Choice/answer button with gradient and gold shimmer on hover */
+.choice-btn {
+  @apply w-full text-left rounded-md p-4 border transition-transform duration-150 ease-out;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transform-origin: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 8px 24px rgba(2,6,23,0.55);
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity, height, margin;
+}
+.choice-btn:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--gold),0.14);
+}
+.choice-btn::after {
+  content: '';
+  position: absolute;
+  left: -120%;
+  top: 0;
+  height: 100%;
+  width: 60%;
+  background: linear-gradient(90deg, rgba(var(--gold),0.0), rgba(var(--gold),0.12), rgba(var(--gold),0.0));
+  transform: skewX(-12deg);
+  transition: left 320ms ease;
+}
+.choice-btn:hover::after {
+  left: 120%;
+}
+.choice-btn .label {
+  @apply w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.choice-hidden {
+  opacity: 0.28;
+  filter: grayscale(80%);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255,255,255,0.14);
+  text-decoration-thickness: 2px;
+  transform: translateX(-2px);
+  pointer-events: none;
+}
+.choice-correct {
+  background: linear-gradient(90deg, rgba(220,252,235,0.12), rgba(255,255,255,0.02)) !important;
+  border-color: rgba(var(--emerald),0.9) !important;
+  color: #ffffff !important;
+  box-shadow: 0 18px 48px rgba(var(--emerald),0.12), 0 0 36px rgba(var(--emerald),0.06) !important;
+  position: relative;
+  overflow: hidden;
+}
+.choice-correct::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(var(--emerald),0.18), rgba(255,255,255,0)) !important;
+  background-size: 200% 100%;
+  transform: translateZ(0);
+  animation: gold-shimmer 750ms linear 1;
+  pointer-events: none;
+}
+.choice-wrong {
+  background: linear-gradient(90deg, rgba(254,226,226,0.16), rgba(255,255,255,0.02)) !important;
+  border-color: rgba(239,68,68,0.95) !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 36px rgba(239,68,68,0.18) !important;
+}
+
+/* Gold label variant for choice letters when a correct answer is shown */
+.label-gold {
+  background: linear-gradient(180deg, rgba(var(--gold),0.95), rgba(245,200,90,0.85));
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(245,200,90,0.14) inset;
+}
+
+.label-selected {
+  background: rgba(255,255,255,0.03) !important;
+  color: inherit !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: none !important;
+}
+
+.label-emerald {
+  background: linear-gradient(180deg, rgba(var(--emerald),0.96), rgba(16,185,129,0.9)) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 0 6px 12px rgba(var(--emerald),0.10) inset !important;
+}
+
+.label-wrong {
+  background: linear-gradient(180deg, rgba(245,100,100,0.96), rgba(239,68,68,0.9)) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 0 6px 12px rgba(239,68,68,0.10) inset !important;
+}
+
+/* Prize ladder active glow */
+.ladder-item {
+  @apply rounded-md px-3 py-2 text-sm text-indigo-100/80;
+}
+.ladder-item.active {
+  border: 1px solid rgba(79,70,229,0.9);
+  box-shadow: 0 6px 20px rgba(79,70,229,0.12), 0 0 28px rgba(79,70,229,0.08);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+  background: linear-gradient(90deg, rgba(79,70,229,0.06), rgba(255,255,255,0.02));
+}
+
+/* ensure active state still shows neon but doesn't override gold/emerald */
+.ladder-item:not(.safe-net):not(.ultimate).active {
+  border: 1px solid rgba(79,70,229,0.9);
+  box-shadow: 0 6px 20px rgba(79,70,229,0.12), 0 0 28px rgba(79,70,229,0.08);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+  background: linear-gradient(90deg, rgba(79,70,229,0.06), rgba(255,255,255,0.02));
+}
+
+/* If a safe-net is also the active tier, combine gold accent with a subtle neon ring */
+.ladder-item.safe-net.active {
+  border-left-color: rgba(var(--gold),0.98);
+  box-shadow: 0 14px 40px rgba(var(--gold),0.12), 0 0 30px rgba(var(--gold),0.12), 0 0 28px rgba(79,70,229,0.06);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+}
+
+/* If the ultimate is active, keep emerald styling but add a neon pulse */
+.ladder-item.ultimate.active {
+  border-left-color: rgba(var(--emerald),0.98);
+  box-shadow: 0 16px 48px rgba(var(--emerald),0.14), 0 0 36px rgba(var(--emerald),0.12), 0 0 28px rgba(79,70,229,0.06);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+}
+
+/* Safety-net ladder styling — stronger gold rim for guaranteed tiers */
+.ladder-item.safe-net {
+  border: 1px solid rgba(var(--gold),0.98);
+  background: linear-gradient(90deg, rgba(var(--gold),0.12), rgba(255,255,255,0.02));
+  box-shadow: 0 12px 34px rgba(var(--gold),0.10), 0 0 26px rgba(var(--gold),0.08);
+  color: rgb(var(--gold));
+  font-weight: 700;
+}
+
+/* Ultimate prize styling (emerald) */
+.ladder-item.ultimate {
+  border: 1px solid rgba(var(--emerald),0.95);
+  background: linear-gradient(90deg, rgba(var(--emerald),0.12), rgba(255,255,255,0.02));
+  box-shadow: 0 12px 34px rgba(var(--emerald),0.10), 0 0 28px rgba(var(--emerald),0.08);
+  color: rgb(var(--emerald));
+  font-weight: 800;
+}
+
+/* stronger visible accent for safe-net: left gold bar and badge */
+.ladder-item.safe-net {
+  position: relative;
+  overflow: visible;
+  border-left: 6px solid rgba(var(--gold),0.98);
+  padding-left: 0.75rem; /* make room for left bar */
+  background: linear-gradient(90deg, rgba(var(--gold),0.14), rgba(255,255,255,0.02));
+  box-shadow: 0 14px 40px rgba(var(--gold),0.12), 0 0 30px rgba(var(--gold),0.08);
+  color: rgb(var(--gold));
+  font-weight: 700;
+}
+.ladder-item.safe-net .badge {
+  background: rgba(0,0,0,0.08);
+  color: rgb(var(--gold));
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 0.08rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+/* ultimate tier: emerald left bar, brighter bg and crown badge */
+.ladder-item.ultimate {
+  position: relative;
+  overflow: visible;
+  border-left: 6px solid rgba(var(--emerald),0.98);
+  padding-left: 0.75rem;
+  background: linear-gradient(90deg, rgba(var(--emerald),0.14), rgba(255,255,255,0.02));
+  box-shadow: 0 16px 48px rgba(var(--emerald),0.14), 0 0 36px rgba(var(--emerald),0.08);
+  color: rgb(var(--emerald));
+  font-weight: 800;
+}
+.ladder-item.ultimate .badge {
+  background: rgba(0,0,0,0.06);
+  color: rgb(var(--emerald));
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 0.08rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+/* ensure active state still shows neon but doesn't override gold/emerald */
+.ladder-item.active {
+  border: 1px solid rgba(79,70,229,0.9);
+  box-shadow: 0 6px 20px rgba(79,70,229,0.12), 0 0 28px rgba(79,70,229,0.08);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+  background: linear-gradient(90deg, rgba(79,70,229,0.06), rgba(255,255,255,0.02));
+}
+
+/* Question panel to make the question prominent */
+.question-panel {
+  @apply rounded-xl p-6;
+  background: linear-gradient(180deg, rgba(10,12,30,0.6), rgba(9,11,24,0.55));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 16px 64px rgba(2,6,23,0.6);
+}
+
+/* eliminated placeholder (compact) shown when 50:50 removes an option - keeps spacing but minimal UI) */
+.eliminated-placeholder {
+  @apply bg-transparent text-indigo-200/50 rounded-md flex items-center justify-center text-sm px-3 py-2;
+  border: 1px dashed rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.42);
+  height: 56px; /* match typical choice height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* reduced height placeholder collapse animation helper */
+.motion-collapse {
+  overflow: hidden;
+}
+
+/* small shimmer animation for decorative elements */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gold-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 150% 0; }
+}
+
+@keyframes selection-pulse {
+  /* removed - no longer used */
+}
+
+.choice-selected {
+  background: none !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  position: relative;
+  z-index: auto;
+}
+
+/* Ensure the label inside a selected choice also turns gold and contrasts */
+.choice-selected .label,
+.choice-selected .label * {
+  background: linear-gradient(180deg, rgba(var(--gold),0.98), rgba(245,200,90,0.95)) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: 0 6px 12px rgba(var(--gold),0.12) inset !important;
+}
+
+/* Make the gold confirm button more prominent and accessible */
+.btn-gold {
+  background: linear-gradient(90deg, rgba(var(--gold),1), rgba(245,200,90,0.98));
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 16px 36px rgba(var(--gold),0.18), 0 0 28px rgba(var(--gold),0.08);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: 700;
+}
+.btn-gold:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 20px 44px rgba(var(--gold),0.22), 0 0 34px rgba(var(--gold),0.12);
+}
+.btn-gold:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(var(--gold),0.14);
+}
+
+/* Make the danger button more punchy */
+.btn-danger {
+  background: linear-gradient(90deg, rgba(239,68,68,1), rgba(220,38,38,0.98));
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 14px 34px rgba(239,68,68,0.16), 0 0 22px rgba(239,68,68,0.08);
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+  font-weight: 700;
+}
+.btn-danger:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(239,68,68,0.20), 0 0 28px rgba(239,68,68,0.1);
+}
+.btn-danger:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(239,68,68,0.12);
+}
+
+.shimmer-fast {
+  background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.02) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+/* little golden accent utility */
+.accent-gold {
+  color: rgb(var(--gold));
+}
+
+/* accessibility helpers */
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+
+.home-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+@media (min-width: 1024px) {
+  .home-panel {
+    min-height: 420px; /* ensures panels visibly match on desktop */
+  }
+}

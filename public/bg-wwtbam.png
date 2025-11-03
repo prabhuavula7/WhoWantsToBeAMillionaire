@@ -1,0 +1,10 @@
+PLACEHOLDER PNG
+This file is a placeholder. To generate an optimized 3840x2160 PNG from public/bg-wwtbam.svg locally, run one of these commands:
+
+# Using ImageMagick (recommended):
+# convert -background none public/bg-wwtbam.svg -resize 3840x2160 public/bg-wwtbam.png
+
+# Or using rsvg-convert:
+# rsvg-convert -w 3840 -h 2160 public/bg-wwtbam.svg -o public/bg-wwtbam.png
+
+Replace this placeholder with the generated PNG for raster support on devices that prefer PNG.

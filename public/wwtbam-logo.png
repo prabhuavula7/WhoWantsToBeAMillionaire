@@ -1,0 +1,10 @@
+PLACEHOLDER PNG
+This file is a placeholder. To generate an optimized 1024x1024 PNG from public/wwtbam-logo.svg locally, run one of these commands:
+
+# Using ImageMagick (recommended):
+# convert -background none public/wwtbam-logo.svg -resize 1024x1024 public/wwtbam-logo.png
+
+# Or using rsvg-convert:
+# rsvg-convert -w 1024 -h 1024 public/wwtbam-logo.svg -o public/wwtbam-logo.png
+
+Replace this placeholder with the generated PNG for raster support in environments that don't render SVG.

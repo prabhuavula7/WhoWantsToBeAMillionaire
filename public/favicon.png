@@ -1,0 +1,10 @@
+PLACEHOLDER PNG
+This file is a placeholder. To generate a 256x256 PNG from public/favicon.svg, run:
+
+# ImageMagick:
+# convert -background none public/favicon.svg -resize 256x256 public/favicon.png
+
+# Or rsvg-convert:
+# rsvg-convert -w 256 -h 256 public/favicon.svg -o public/favicon.png
+
+Replace this placeholder with the generated PNG.

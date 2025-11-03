@@ -1,0 +1,46 @@
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+.build/
+build/
+
+# local env files
+.env
+.env.*.local
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# macOS
+.DS_Store
+
+# misc
+coverage/
+.cache/
+*.tgz
+
+# Vite / local
+.vite/
+
+# public/static assets cache
+/public/assets
+
+# OS generated files
+Thumbs.db
+
+# Optional lockfiles (if you prefer not to commit)
+# package-lock.json
+# yarn.lock

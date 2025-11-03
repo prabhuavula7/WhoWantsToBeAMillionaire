@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#0b1b44" />
+      <stop offset="40%" stop-color="#102a66" />
+      <stop offset="100%" stop-color="#03051a" />
+    </radialGradient>
+    <linearGradient id="glow" x1="0" x2="1">
+      <stop offset="0%" stop-color="#4b59ff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#2b6ef6" stop-opacity="0.02" />
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="b" />
+      <feBlend in="SourceGraphic" in2="b" mode="normal" />
+    </filter>
+  </defs>
+
+  <!-- base gradient -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+
+  <!-- subtle starburst radial rays (low opacity) -->
+  <g fill="none" stroke="#2b6ef6" stroke-opacity="0.06" stroke-width="2" transform="translate(1920,540)">
+    <g>
+      <path d="M0 -1 L0 -1200" transform="rotate(10)" />
+      <path d="M0 -1 L0 -1200" transform="rotate(-10)" />
+      <path d="M0 -1 L0 -1200" transform="rotate(30)" />
+      <path d="M0 -1 L0 -1200" transform="rotate(-30)" />
+      <path d="M0 -1 L0 -1200" transform="rotate(60)" />
+    </g>
+  </g>
+
+  <!-- faint grid arcs to evoke studio lighting -->
+  <g stroke="#6f7bff" stroke-opacity="0.04" fill="none" stroke-width="2">
+    <path d="M0 1200 C960 800 2880 800 3840 1200" />
+    <path d="M0 1400 C960 1100 2880 1100 3840 1400" />
+    <path d="M0 1600 C960 1400 2880 1400 3840 1600" />
+  </g>
+
+  <!-- soft glow layer -->
+  <rect width="100%" height="100%" fill="url(#glow)" opacity="0.12" filter="url(#soft)" />
+
+  <!-- vignette -->
+  <ellipse cx="1920" cy="1080" rx="2000" ry="900" fill="#000" opacity="0.45" />
+
+  <!-- sparse stars for subtle sparkle -->
+  <g fill="#fff" opacity="0.06">
+    <circle cx="600" cy="220" r="2" />
+    <circle cx="3200" cy="260" r="1.5" />
+    <circle cx="1800" cy="120" r="1.8" />
+    <circle cx="2400" cy="420" r="1.6" />
+  </g>
+</svg>
