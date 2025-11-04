@@ -196,7 +196,12 @@ export default function GameScreen({ quiz, onBackToMenu, onExitToHome }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, height: 0, margin: 0, padding: 0 }}
                   >
-                    <div className={`label ${isRevealed && revealResult === 'correct' ? 'label-emerald' : (isRevealed && revealResult === 'wrong' ? 'label-wrong' : '')}`}>{label}</div>
+                    <div
+                      className={`label ${isRevealed && revealResult === 'correct' ? 'label-emerald' : (isRevealed && revealResult === 'wrong' ? 'label-wrong' : '')}`}
+                      style={isRevealed ? (revealResult === 'correct' ? { borderStyle: 'solid', borderColor: 'rgba(16,185,129,0.98)', borderWidth: '2px', boxShadow: '0 0 0 10px rgba(16,185,129,0.18)', zIndex: 3 } : (revealResult === 'wrong' ? { borderStyle: 'solid', borderColor: 'rgba(239,68,68,0.98)', borderWidth: '2px', boxShadow: '0 0 0 10px rgba(239,68,68,0.18)', zIndex: 3 } : undefined)) : undefined}
+                    >
+                      {label}
+                    </div>
                     <div className="flex-1">{choice}</div>
                   </motion.button>
                 );
@@ -244,7 +249,15 @@ export default function GameScreen({ quiz, onBackToMenu, onExitToHome }) {
                       {tier.label}
                     </div>
                     <div className="flex items-center gap-2">
-                      {isSafeNet && <div className="badge">SAFE</div>}
+                      {isSafeNet && (
+                        <div
+                          className="badge"
+                          title={tier.id === 5 ? 'Candy safe net' : 'Burger safe net'}
+                          aria-label={tier.id === 5 ? 'Candy safe net' : 'Burger safe net'}
+                        >
+                          {tier.id === 5 ? '🍬 SAFE' : '🍔 SAFE'}
+                        </div>
+                      )}
                       {isUltimate && <div className="badge">★</div>}
                       <div className="text-xs sm:text-sm">{tier.id === 15 ? 'TOP' : ''}</div>
                     </div>
